@@ -5,16 +5,17 @@
 using namespace std;
 
 int main(){
-
 string line;
-int number_of_records = 0;
-ifstream inData;
-inData.open("data.txt");
-cout << "Hi" << endl;
-   while (getline(inData, line))
-       ++number_of_records;
-   cout << "Number of lines in text file: " << number_of_records << endl;
-   inData.close();
+int records;
+fstream file ("data.txt");
+if (file.is_open()){
+  while (getline(file, line))
+  {
+  ++records;
+  }
+  cout << "The number of records is: " << records << endl;
+  file.close();
+}
 return 0;
 }
 
