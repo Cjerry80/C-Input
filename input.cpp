@@ -11,6 +11,7 @@ struct  PERSON {
 
 void Readfile(int r, PERSON array[]);
 void Display(int r, PERSON array[]);
+void findRichest(int r, PERSON array[]);
 
 int main(){
 
@@ -29,6 +30,7 @@ if (file.is_open()){
 PERSON array[records];
 Readfile(records, array);
 Display(records, array);
+findRichest(records, array);
 
 return 0;
 
@@ -54,11 +56,26 @@ array[i].Balance = bal;
 infile.close();
 
 }
+
 void Display(int r, PERSON array[]){
 cout << "Name" << "               " << "Balance" << endl;
 cout << "----------------------------------" << endl;
 for(int i = 0; i < r; i++){
 cout << array[i].Name << "     " << array[i].Balance << endl;
 }
+
+}
+
+void findRichest(int r, PERSON array[]){
+int temp = 0;
+int counter = 0;
+
+for (int i = 0; i < r; i++){
+  if (array[i].Balance > temp ){
+    temp = array[i].Balance;
+    counter = i;
+  }
+}
+cout << "The customer with maximum balance is " << array[counter].Name << endl;
 
 }
