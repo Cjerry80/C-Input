@@ -12,11 +12,14 @@ struct  PERSON {
 void Readfile(int r, PERSON array[]);
 void Display(int r, PERSON array[]);
 void findRichest(int r, PERSON array[]);
+void Deposit(string custname, int r, PERSON array[]);
 
 int main(){
 
 string line;
 int records;
+string custname;
+
 fstream file ("data.txt");
 if (file.is_open()){
   while (getline(file, line))
@@ -27,10 +30,15 @@ if (file.is_open()){
   file.close();
 }
 
+
 PERSON array[records];
 Readfile(records, array);
 Display(records, array);
 findRichest(records, array);
+
+cout << "Enter your full name: ";
+getline(cin, custname);
+Deposit(custname, records, array);
 
 return 0;
 
@@ -77,5 +85,23 @@ for (int i = 0; i < r; i++){
   }
 }
 cout << "The customer with maximum balance is " << array[counter].Name << endl;
+
+}
+
+void Deposit(string custname, int r, PERSON array[]){
+
+int depositmoney;
+
+for (int i = 0; i < r; i++){
+  if (custname != array[i].Name){
+
+  }
+  else{
+    cout << custname << ", How much would you like to deposit? ";
+    cin >> depositmoney;
+    array[i].Balance = array[i].Balance + depositmoney;
+    cout << "Now your new balance is " << array[i].Balance << endl;
+  }
+}
 
 }
