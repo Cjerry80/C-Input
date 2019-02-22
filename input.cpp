@@ -13,7 +13,7 @@ void Readfile(int r, PERSON array[]);
 void Display(int r, PERSON array[]);
 void findRichest(int r, PERSON array[]);
 void Deposit(string custname, int r, PERSON array[]);
-
+void Newcopy(string file, int r, PERSON array[]);
 int main(){
 
 string line;
@@ -39,6 +39,7 @@ findRichest(records, array);
 cout << "Enter your full name: ";
 getline(cin, custname);
 Deposit(custname, records, array);
+Newcopy("data.txt", records, array);
 
 return 0;
 
@@ -103,5 +104,14 @@ for (int i = 0; i < r; i++){
     cout << "Now your new balance is " << array[i].Balance << endl;
   }
 }
+}
+void Newcopy(string file, int r, PERSON array[]){
+
+ofstream outfile;
+outfile.open("data.txt");
+for (int i = 0; i < r; i++){
+  outfile << array[i].Name << " " << array[i].Balance << endl;
+}
+outfile.close();
 
 }
