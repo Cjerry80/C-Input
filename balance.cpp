@@ -1,7 +1,11 @@
+// Cheng  No Chang
+// 301 Section 3
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include <string>
+#include <ctime>
 using namespace std;
 
 struct  PERSON {
@@ -10,81 +14,110 @@ struct  PERSON {
 };
 
 int getnumberofRecords();
-void Readfile(int N, PERSON P[]);
 void Display(int N, PERSON P[]);
 void findRichest(int N, PERSON P[]);
 void Newcopy(string file, int N, PERSON P[]);
-PERSON * readData(int N);
-void Deposit(Person P[], int N, string custName,float amount);
+PERSON * readData(int & N);
+void Deposit(PERSON P[], int N, string custName,float amount);
+void Custinfo(int N, PERSON P[]);
 
-int main(){
-
-PERSON * P = nullptr;
-P = readData(N);
-string custName;
-float amount;
-
-Readfile(N, P);
-Display(N, P);
-findRichest(N, P);
-
-cout << "Enter name: " << endl;
-cin.ignore();
-getline(cin, custName);
-cout << "Amount: " << endl;
-cin >> amount;
-Deposit(P, N, custName, amount);
-Newcopy("data.txt", N, P);
-
-return 0;
-
+void printmenu() {
+    cout << "Please enter a choice:" << endl;
+    cout << "1. Display records"<< endl;
+    cout << "2. Deposit funds"<< endl;
+    cout << "3. Find Highest Balance" << endl;
+    cout << "4. Update records" << endl;
+    cout << "5. Exit the program" << endl;
 }
 
-PERSON * readData(int N){
+int main()
+{
+  int choice;
+  int N = 0;
+  PERSON *P = nullptr;
+  P = readData(N);
+    do
+    {
+        printmenu();
+        cout << "What would you like to do? ";
+        cin >> choice;
+        switch(choice)
+        {
+            case 1:
+                Display(N, P);
+                break;
+
+            case 2:
+                Custinfo(N, P);
+
+                break;
+
+            case 3:
+                findRichest(N, P);
+                break;
+
+            case 4:
+                Newcopy("data.txt", N, P);
+                break;
+
+            case 5:
+                Newcopy("data.txt", N, P);
+                break;
+
+            default:
+                cout << "Invalid entry" << endl;
+                break;
+        }
+        cout << endl;
+   } while(choice != 5);
+      return 0;
+}
+
+
+PERSON *readData(int & N){
 N = getnumberofRecords();
 ifstream infile;
-string firstn;
-string lastn;
-string line;
-Person * P = null;
+string firstn = " ";
+string lastn = " ";
+string line = " ";
+PERSON * P = nullptr;
+P = new PERSON[N];
 infile.open("data.txt");
-A = new PERSON[N];
 
 
 for (int i = 0; i < N; i++){
   infile >> firstn;
   infile >> lastn;
-  infile >> A[i].balance;
+  infile >> P[i].Balance;
   getline(infile, line);
-  strncpy(A[i].Name, firstn.c_str(), 9);
-  strcat(A[i].Name, " ");
-  strncat(A[i].Name, lastn_c_str(),10);
+  strncpy(P[i].Name, firstn.c_str(), 9);
+  strcat(P[i].Name, " ");
+  strncat(P[i].Name, lastn.c_str(), 10);
   }
   infile.close();
 
-return A;
+return P;
 }
 
 
 int getnumberofRecords(){
-
-  int records;
-
-  fstream file ("data.txt");
-  if (file.is_open()){
-    while (getline(file, line))
-    {
-    ++records;
+  string line = " ";
+  int records = 0;
+  ifstream infile;
+  infile.open("data.txt");
+    while (!infile.eof()){
+    getline(infile, line);
+    records++;
     }
-    file.close();
 
-  return records;
+    infile.close();
+return records;
 }
 
 void Display(int N, PERSON P[]){
 cout << "Display: " << endl;
 for(int i = 0; i < N; i++){
-cout << P[i].Name << " " << P[i].balance << endl;
+cout << P[i].Name << " " << P[i].Balance << endl;
 }
 
 }
@@ -92,24 +125,23 @@ void findRichest(int N, PERSON P[]){
   int temp = 0;
   int counter = 0;
   cout << "Find Richest: " << endl;
-  for (int i = 0; i < r; i++){
-    if (P[i].balance > temp ){
-      temp = P[i].balance;
+  for (int i = 0; i < N; i++){
+    if (P[i].Balance > temp ){
+      temp = P[i].Balance;
       counter = i;
     }
   }
   cout << "Highest Balance: " << P[counter].Name << endl;
 }
-void Deposit(Person P[], int N, string custName, float amount){
-for (int i = 0; i < N; i++ ){
-  if (custName == P[i].Name){
-    P[i].balance = P[i].balance + amount
-    cout << "New Balance: " << P[i].balance << endl;
+
+void Deposit(PERSON P[], int N, string custName, float amount){
+
+  for (int i = 0; i < N; i++ ){
+    if (custName == P[i].Name){
+      P[i].Balance = P[i].Balance + amount;
+      cout << "New Balance: " << P[i].Balance << endl;
+    }
   }
-  else {
-    cout << "Record not found. " << endl;
-  }
-}
 }
 
 
@@ -118,10 +150,30 @@ void Newcopy(string file, int N, PERSON P[]){
 ofstream outfile;
 cout << "Newcopy: " << endl;
 outfile.open("data.txt");
-for (int i = 0; i < r; i++){
-  outfile << P[i].Name << " " << P[i].balance << endl;
+for (int i = 0; i < N; i++){
+  outfile << P[i].Name << " " << P[i].Balance << endl;
 }
 outfile.close();
 cout << "File Updated.." << endl;
 
+}
+
+void Custinfo(int N, PERSON P[]){
+  int count = 1;
+  float amount = 0;
+  string customername = " ";
+  cout << "Enter name: ";
+  cin.ignore();
+  getline(cin, customername);
+  for (int i = 0; i < N; i++){
+    if (customername == P[i].Name){
+      cout << "Amount: ";
+      cin >> amount;
+      Deposit(P, N, customername, amount);
+    }
+    else
+      count++;
+  }
+  if (count > N)
+    cout << "Record not found. " << endl;
 }
